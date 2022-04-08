@@ -1,6 +1,6 @@
 # Nomadecoder Instaclone Web Client
 
 -  [x] Setup Router
--  [ ] Authentication
--  [ ] Arch.
+-  [x] Authentication
+-  [x] Arch.
 -  [ ] Styles (Dark Mode!!!)

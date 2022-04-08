@@ -1,25 +1,20 @@
-import { useState } from "react";
+import { useReactiveVar } from "@apollo/client";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { isLoggedInVar } from "./apollo";
 import Home from "./screens/Home";
 import Login from "./screens/Login";
 import NotFound from "./screens/NotFound";
 
 function App() {
-	const [isLoggedIn, setIsLoggedIn] = useState(false);
+	const isLoggedIn = useReactiveVar(isLoggedInVar);
 	return (
-		<div className="App">
+		<div>
 			<Router>
 				<Routes>
 					<Route
 						exact
 						path="/home"
-						element={
-							isLoggedIn ? (
-								<Home setIsLoggedIn={setIsLoggedIn} />
-							) : (
-								<Login setIsLoggedIn={setIsLoggedIn} />
-							)
-						}
+						element={isLoggedIn ? <Home /> : <Login />}
 					></Route>
 					<Route path="*" element={<NotFound />}></Route>
 				</Routes>
