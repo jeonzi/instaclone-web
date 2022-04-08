@@ -3,4 +3,5 @@
 -  [x] Setup Router
 -  [x] Authentication
 -  [x] Arch.
--  [ ] Styles (Dark Mode!!!)
+-  [x] Styles (Dark Mode!!!)
+-  [ ] Log In / Sign Up
