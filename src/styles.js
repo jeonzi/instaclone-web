@@ -2,8 +2,8 @@ import { createGlobalStyle } from "styled-components";
 import reset from "styled-reset";
 
 export const lightTheme = {
-	fontColor: "#2c2c2c",
-	bgColor: "white",
+	accentColor: "#fafafa",
+	borderColor: "rgb(219, 219, 219)",
 };
 
 export const darkTheme = {
@@ -14,7 +14,7 @@ export const darkTheme = {
 export const GlobalStyles = createGlobalStyle`
     ${reset}
 	input {
-		all: unset;
+		all: unset; // input의 모든 porperty가 삭제됨
 	}
 	* {
 		box-sizing: border-box ;
@@ -24,6 +24,7 @@ export const GlobalStyles = createGlobalStyle`
 		background-color: #fafafa;
 		font-size: 14px;
 		font-family:'Open Sans', sans-serif ;
+		color: rgb(38,38,38);
     }
 	a {
 		text-decoration: none;
