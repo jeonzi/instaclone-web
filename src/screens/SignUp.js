@@ -13,6 +13,10 @@ import BottomBox from "../components/auth/BottomBox";
 import routes from "../routes";
 import { FatLink } from "../components/commonStyles";
 import PageTitle from "../components/PageTitle";
+import { useForm } from "react-hook-form";
+import FormError from "../components/auth/FormError";
+import { gql, useMutation } from "@apollo/client";
+import { useNavigate } from "react-router-dom";
 
 const HeaderContainer = styled.div`
 	display: flex;
@@ -42,7 +46,54 @@ const FacebookLogin = styled.div`
 	}
 `;
 
+const CREATE_ACCOUNT_MUTATION = gql`
+	mutation createAccount(
+		$firstName: String!
+		$lastName: String
+		$email: String!
+		$username: String!
+		$password: String!
+	) {
+		createAccount(
+			firstName: $firstName
+			lastName: $lastName
+			email: $email
+			username: $username
+			password: $password
+		) {
+			ok
+			error
+		}
+	}
+`;
+
 function SignUp() {
+	const navigate = useNavigate(); // useHistory -> useNavigate(react-router-dom ver6)
+	const onCompleted = (data) => {
+		const {
+			createAccount: { ok, error },
+		} = data;
+		if (!ok) {
+			return;
+		}
+		navigate(routes.home);
+	};
+	const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
+		onCompleted,
+	});
+	const { register, handleSubmit, formState } = useForm({
+		mode: "onChange",
+	});
+	const onSubmitValid = (data) => {
+		if (loading) {
+			return;
+		}
+		createAccount({
+			variables: {
+				...data,
+			},
+		});
+	};
 	return (
 		<AuthLayout>
 			<PageTitle title="Sign up" />
@@ -58,12 +109,47 @@ function SignUp() {
 					</FacebookLogin>
 				</HeaderContainer>
 				<Separator />
-				<form>
-					<Input type="text" placeholder="Name" />
-					<Input type="text" placeholder="Email" />
-					<Input type="text" placeholder="Username" />
-					<Input type="password" placeholder="Password" />
-					<Button type="submit" value="Sign Up" />
+				<form onSubmit={handleSubmit(onSubmitValid)}>
+					<Input
+						{...register("firstName", { required: true })}
+						type="text"
+						placeholder="First Name"
+					/>
+					<FormError message={formState.errors?.firstName?.message} />
+					<Input
+						{...register("lastName")}
+						type="text"
+						placeholder="Last Name"
+					/>
+					<Input
+						{...register("email", {
+							required: "First Name is required.",
+						})}
+						type="text"
+						placeholder="Email"
+					/>
+					<FormError message={formState.errors?.email?.message} />
+					<Input
+						{...register("username", {
+							required: "Username is required.",
+						})}
+						type="text"
+						placeholder="Username"
+					/>
+					<FormError message={formState.errors?.username?.message} />
+					<Input
+						{...register("password", {
+							required: "Password is required.",
+						})}
+						type="password"
+						placeholder="Password"
+					/>
+					<FormError message={formState.errors?.password?.message} />
+					<Button
+						type="submit"
+						value={loading ? "Loading..." : "Sign Up"}
+						disabled={!formState.isValid || loading}
+					/>
 				</form>
 			</FormBox>
 			<BottomBox
