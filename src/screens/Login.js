@@ -15,6 +15,7 @@ import PageTitle from "../components/PageTitle";
 import { useForm } from "react-hook-form";
 import FormError from "../components/auth/FormError";
 import { gql, useMutation } from "@apollo/client";
+import { logUserIn } from "../apollo";
 
 const FacebookLogin = styled.div`
 	color: #385285;
@@ -35,7 +36,14 @@ const LOGIN_MUTATION = gql`
 `;
 
 function Login() {
-	const { register, handleSubmit, formState, getValues, setError } = useForm({
+	const {
+		register,
+		handleSubmit,
+		formState,
+		getValues,
+		setError,
+		clearErrors,
+	} = useForm({
 		mode: "onChange",
 	}); //useState, setvalue, onchange를 모두 다 해줌
 	const onCompleted = (data) => {
@@ -43,9 +51,12 @@ function Login() {
 			login: { ok, error, token },
 		} = data;
 		if (!ok) {
-			setError("result", {
+			return setError("result", {
 				message: error,
 			});
+		}
+		if (token) {
+			logUserIn(token);
 		}
 	};
 	const [login, { loading }] = useMutation(LOGIN_MUTATION, { onCompleted });
@@ -57,6 +68,10 @@ function Login() {
 		login({
 			variables: { username, password },
 		});
+	};
+
+	const clearLoginError = () => {
+		clearErrors("result");
 	};
 
 	return (
@@ -78,6 +93,9 @@ function Login() {
 								message: "5~15자의 영문과 숫자만 사용 가능합니다.",
 								value: /^[a-z0-9]{1,15}$/g,
 							},
+							onChange() {
+								clearLoginError();
+							},
 						})}
 						type="text"
 						placeholder="Username"
@@ -87,6 +105,9 @@ function Login() {
 					<Input
 						{...register("password", {
 							required: "Password is required.",
+							onChange() {
+								clearErrors("result");
+							},
 						})}
 						type="password"
 						placeholder="Password"
@@ -98,6 +119,7 @@ function Login() {
 						value={loading ? "Loading..." : "Log in"}
 						disabled={!formState.isValid || loading}
 					/>
+					<FormError message={formState.errors?.result?.message} />
 				</form>
 				<Separator />
 				<FacebookLogin>
