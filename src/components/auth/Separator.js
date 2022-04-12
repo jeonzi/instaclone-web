@@ -13,7 +13,7 @@ const SSeparator = styled.div`
 		background-color: rgb(219, 219, 219);
 	}
 	span {
-		margin: 0px 10px;
+		margin: 0px 10px 10px 10px;
 		font-size: 12px;
 		font-weight: 600;
 		color: #8e8e8e;

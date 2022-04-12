@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BaseBox } from "../common";
+import { BaseBox } from "../commonStyles";
 
 const Container = styled(BaseBox)`
 	display: flex;

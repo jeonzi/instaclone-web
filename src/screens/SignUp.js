@@ -11,7 +11,8 @@ import Input from "../components/auth/Input";
 import FormBox from "../components/auth/FormBox";
 import BottomBox from "../components/auth/BottomBox";
 import routes from "../routes";
-import { FatLink } from "../components/common";
+import { FatLink } from "../components/commonStyles";
+import PageTitle from "../components/PageTitle";
 
 const HeaderContainer = styled.div`
 	display: flex;
@@ -44,6 +45,7 @@ const FacebookLogin = styled.div`
 function SignUp() {
 	return (
 		<AuthLayout>
+			<PageTitle title="Sign up" />
 			<FormBox>
 				<HeaderContainer>
 					<FontAwesomeIcon icon={faInstagram} size="3x" />
