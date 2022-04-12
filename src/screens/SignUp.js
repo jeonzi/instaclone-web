@@ -70,18 +70,23 @@ const CREATE_ACCOUNT_MUTATION = gql`
 function SignUp() {
 	const navigate = useNavigate(); // useHistory -> useNavigate(react-router-dom ver6)
 	const onCompleted = (data) => {
+		const { username, password } = getValues();
 		const {
 			createAccount: { ok, error },
 		} = data;
 		if (!ok) {
 			return;
 		}
-		navigate(routes.home);
+		navigate(routes.home, {
+			message: "Account created. Please log in. ",
+			username,
+			password,
+		});
 	};
 	const [createAccount, { loading }] = useMutation(CREATE_ACCOUNT_MUTATION, {
 		onCompleted,
 	});
-	const { register, handleSubmit, formState } = useForm({
+	const { register, handleSubmit, formState, getValues } = useForm({
 		mode: "onChange",
 	});
 	const onSubmitValid = (data) => {

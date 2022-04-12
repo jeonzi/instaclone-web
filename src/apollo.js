@@ -9,9 +9,10 @@ export const logUserIn = (token) => {
 	isLoggedInVar(true);
 };
 
-export const logUserOut = (token) => {
-	localStorage.removeItem(TOKEN, token);
-	isLoggedInVar(false);
+export const logUserOut = (navigate) => {
+	localStorage.removeItem(TOKEN);
+	navigate.replace();
+	window.localStorage.reload();
 };
 
 export const darkModeVar = makeVar(false);

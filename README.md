@@ -7,4 +7,4 @@
 -  [ ] Log In / Sign Up
 -  [ ] Feed
 -  [ ] Profile
--  [] See Hashtag
+-  [ ] See Hashtag
