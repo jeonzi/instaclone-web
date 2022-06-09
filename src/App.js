@@ -3,7 +3,6 @@ import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { client, darkModeVar, isLoggedInVar } from "./apollo";
-import Header from "./components/Header";
 import Layout from "./components/Layout";
 import routes from "./routes";
 import Home from "./screens/Home";
